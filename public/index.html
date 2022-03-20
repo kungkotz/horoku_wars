@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/assets/style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+    <title>Horoku</title>
+
+</head>
+<body>
+    <div id="app">
+
+        <div id="register-player">
+            <h1>Horoku-War</h1>
+            
+            <h3>Battle Your Opponent Against The Virus!</h3>
+
+            <form id="player-form">
+                <div class="form-group">
+                    <input type="text" id="username" required placeholder="Enter player-name">
+                </div>
+
+                <button class="connect-btn" type="submit">Battle!</button>
+
+                <span id="loading" class="hide">Waiting for new victim...</span>
+
+            </form>
+        </div>
+
+        <div id="game" class="hide">
+            <div id="player1">
+                <h1></h1>
+                <button btn>Confirm</button>
+                <ul id="timer1"></ul>
+            </div>
+
+            <div id="gameArea">
+                <div id="score">
+                    <span id="player1Score">0</span>-<span id="player2Score">0</span>
+                </div>
+
+                <div id="playArea">
+                    <span id="virus" class="hide"><img class="virus-img" src="./assets/images/virus.png" alt=""></span>
+                </div>
+            </div>
+
+            <div id="player2">
+                <h1></h1>
+                <ul id="timer2"></ul>
+            </div>
+
+        </div>
+
+    </div>
+    
+    <script src="/assets/js/moment.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+	<script src="/assets/js/game.js"></script>
+</body>
+</html>

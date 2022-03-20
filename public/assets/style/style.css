@@ -1,0 +1,130 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#app {
+    height: 100vh;
+    width: 100vw;
+    font-family: 'VT323', 'Roboto', sans-serif;
+    background-color: black;
+}
+
+#register-player {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#register-player h1 {
+    margin-top: 5rem;
+    font-size: 6rem;
+    color: white;
+}
+
+#register-player h3 {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: white;
+}
+
+#player-form {
+    justify-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#username {
+    width: 200px;
+    height: 40px;
+    text-align: center;
+}
+
+#player-form button {
+    width: 200px;
+    height: 40px;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: red;
+}
+
+#loading {
+    margin: 3rem;
+    color: white;
+    font-size: 2rem;
+}
+
+.hide {
+    display: none !important;
+}
+
+#game {
+    height: inherit;
+    display: flex;
+    justify-content: space-between;
+}
+
+#player1, #player2 {
+    height: inherit;
+    width: 20vw;
+    background-color: transparent;
+    text-align:center;
+}
+
+#player1 h1, #player2 h1 {
+    margin: 2rem 0;
+    color: white;
+}
+
+#player1 button, #player2 button {
+    background: red;
+    width: 70px;
+    padding: 10px 11px;
+    color: white;
+    font-size: 20px;
+
+}
+
+#timer1, #timer2 {
+    list-style: none;
+}
+
+#timer1 li, #timer2 li {
+    margin-bottom: 0.6rem;
+    font-size: 30px; 
+    color: #00e700
+}
+
+#gameArea {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#score {
+    font-size: 4rem;
+    text-align: center;
+    color: white;
+}
+
+#playArea {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    border: solid red;
+}
+
+.virus-img {
+    max-height: 80px;
+    max-width: 80px;
+}
