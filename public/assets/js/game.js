@@ -19,3 +19,16 @@ document.querySelector('#player-form').addEventListener('submit', (e) => {
   // emits that username value
   socket.emit('newPlayer', username);
 });
+
+// listen for when a user disconnects
+socket.on('user:disconnected', (username) => {
+  console.log(username + ' disconnected');
+});
+
+// listen for when this user disconnects
+socket.on('disconnect', (reason) => {
+  if (reason === 'io server disconnect') {
+    socket.connect();
+  }
+  console.log(username + ' disconnected');
+});
