@@ -5,6 +5,16 @@ let players = {};
 let availableRoom = 1;
 let games = [];
 
+// function to get random position on grid
+const getRandomPosition = () => {
+  return Math.floor(Math.random() * 10) + 1
+};
+
+// function to get random delay on the pop up of virus
+const getRandomDelay = () => {
+  return Math.floor(Math.random() * (5000 - 1000)) + 1000
+};
+
 const handleNewPlayer = function (username) {
   players[this.id] = username;
 
@@ -33,6 +43,29 @@ const handleNewPlayer = function (username) {
     availableRoom++;
   }
 };
+
+socket.on('getPoint', id => {
+  let player = null;
+
+  id === socket.id
+      ? player = 'player2'
+      : player = 'player1'
+
+  let oldScore = Number(document.querySelector(`#${player}Score`).innerHTML);
+
+  let newScore = ++oldScore;
+  document.querySelector(`#${player}Score`).innerHTML = newScore;
+
+  // hide the virus
+  virusEl.classList.add('hide')
+})
+
+// setInterval is passed here and then cancels the interval
+socket.on('stopTimer', (id) => {
+  id === socket.id
+      ? clearInterval(timer1)
+      : clearInterval(timer2)
+})
 
 const handleDisconnect = function () {
   debug(`Client ${this.id} disconnected :(`);
