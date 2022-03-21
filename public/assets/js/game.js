@@ -2,6 +2,9 @@ let socket = io();
 
 const virusEl = document.querySelector('#virus');
 
+let timer;
+let newListItem;
+
 /**
  * Event listeners
  */
@@ -19,6 +22,14 @@ document.querySelector('#player-form').addEventListener('submit', (e) => {
   // emits that username value
   socket.emit('newPlayer', username);
 });
+
+// Listen for ready button interaction
+document.querySelector('#player1 button').addEventListener('click', () => {
+
+  document.querySelector('#player1 button').innerHTML = 'Lets Go!'
+  
+  socket.emit("ready")
+})
 
 // listen for when a user disconnects
 socket.on('user:disconnected', (username) => {
