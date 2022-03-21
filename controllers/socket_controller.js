@@ -44,6 +44,35 @@ const handleNewPlayer = function (username) {
   }
 };
 
+const handleClicked = function () {
+  const game = games.find(id => id.players[this.id]);
+
+  // sends the click function to stop the timer 
+  io.to(game.room).emit('stopTimer', this.id)
+
+  //register who clicked
+  game.clicks.push(this.id)
+
+  if (game.clicks.length === 2) {
+
+      io.to(game.room).emit('getPoint', this.id)
+
+      // sends the clicks to array
+      game.clicks = []
+
+      // increments the rounds
+      game.rounds++
+      
+      // 
+      if (game.rounds < 10) {
+          delay = getRandomDelay()
+          io.to(game.room).emit('startGame', delay, getRandomPosition(), getRandomPosition())
+       //} else if (game.rounds === 10) {
+          //io.to(game.room).emit('winner')
+      }
+  }
+};
+
 socket.on('getPoint', id => {
   let player = null;
 
@@ -86,6 +115,10 @@ const handleDisconnect = function () {
 module.exports = function (socket) {
   io = this;
   debug(`Client ${socket.id} connected!`);
+
   socket.on('disconnect', handleDisconnect);
+
   socket.on('newPlayer', handleNewPlayer);
+
+  socket.on('clicked', handleClicked);
 };
