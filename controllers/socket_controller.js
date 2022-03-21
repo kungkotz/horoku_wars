@@ -73,29 +73,6 @@ const handleClicked = function () {
   }
 };
 
-socket.on('getPoint', id => {
-  let player = null;
-
-  id === socket.id
-      ? player = 'player2'
-      : player = 'player1'
-
-  let oldScore = Number(document.querySelector(`#${player}Score`).innerHTML);
-
-  let newScore = ++oldScore;
-  document.querySelector(`#${player}Score`).innerHTML = newScore;
-
-  // hide the virus
-  virusEl.classList.add('hide')
-})
-
-// setInterval is passed here and then cancels the interval
-socket.on('stopTimer', (id) => {
-  id === socket.id
-      ? clearInterval(timer1)
-      : clearInterval(timer2)
-})
-
 const handleDisconnect = function () {
   debug(`Client ${this.id} disconnected :(`);
   // Find the room that this socket is part of
