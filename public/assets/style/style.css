@@ -10,7 +10,7 @@
     height: 100vh;
     width: 100vw;
     font-family: 'VT323', 'Roboto', sans-serif;
-    background-color: white; /*change some code to see if heroku updates*/
+    background-color: black;
 }
 
 #register-player {
