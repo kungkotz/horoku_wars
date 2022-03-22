@@ -88,14 +88,9 @@ const handleClicked = function () {
         getRandomPosition(),
         getRandomPosition()
       );
+    }  else if (game.rounds === 3) {
+      io.to(game.room).emit('winner')
     }
-    /**
-     * if (game.rounds === 3) {
-      io.to(game.room).emit('newGame', game.players, game.rounds);
-      //io.to(game.room).emit('winner')
-      //
-    }
-     */
   }
 };
 

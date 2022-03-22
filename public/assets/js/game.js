@@ -132,5 +132,18 @@ socket.on('getPoint', (id) => {
 
 // setInterval is passed here and then cancels the interval
 socket.on('stopTimer', (id) => {
-  id === socket.id ? clearInterval(timer1) : clearInterval(timer2);
-});
+  id === socket.id
+      ? clearInterval(timer1)
+      : clearInterval(timer2)
+})
+
+// emiting winner at end of game
+socket.on('winner', () => {
+  if (document.querySelector('#player1Score').innerHTML > document.querySelector('#player2Score').innerHTML) {
+      document.querySelector('#winner').innerHTML = 'YESSSSS! <br> <img src="" class="winnerGif" alt="">'
+  } else if (document.querySelector('#player1Score').innerHTML < document.querySelector('#player2Score').innerHTML) {
+      document.querySelector('#winner').innerHTML = 'DAMN IT, I suck! <br><img src="" class="looser" alt="">'
+  } else {
+      document.querySelector('#winner').innerHTML = 'Wow, you are both winners! <br><img src="" class="tie" alt="">'
+  }
+})
