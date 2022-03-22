@@ -8,7 +8,7 @@ const app = require('../app');
 const debug = require('debug')('horoku:server');
 const http = require('http');
 const SocketIO = require('socket.io');
-
+const socket_controller = require('../controllers/socket_controller');
 /**
  * Get port from environment and store in Express.
  */
@@ -23,7 +23,9 @@ app.set('port', port);
 const server = http.createServer(app);
 const io = SocketIO(server);
 
-io.on('connection', require('../controllers/socket_controller'));
+io.on('connection', (socket) => {
+  socket_controller(socket, io);
+});
 
 /**
  * Listen on provided port, on all network interfaces.
