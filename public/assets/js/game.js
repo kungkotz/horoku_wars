@@ -137,6 +137,7 @@ socket.on('stopTimer', (id) => {
       : clearInterval(timer2)
 })
 
+// emiting winner at end of game
 socket.on('winner', () => {
   if (document.querySelector('#player1Score').innerHTML > document.querySelector('#player2Score').innerHTML) {
       document.querySelector('#winner').innerHTML = 'YESSSSS! <br> <img src="" class="winnerGif" alt="">'
