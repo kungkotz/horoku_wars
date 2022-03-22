@@ -128,3 +128,7 @@
     max-height: 80px;
     max-width: 80px;
 }
+
+.virus-img:hover {
+    cursor: pointer;
+}
