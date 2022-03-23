@@ -1,7 +1,10 @@
 let socket = io();
 
 const virusEl = document.querySelector('#virus');
+const audio = document.getElementById('musicPlayer');
+const confirmBtn = document.querySelector('.confirmBtn')
 
+let confirm = 0;
 let timer;
 let newListItem;
 
@@ -10,7 +13,7 @@ let newListItem;
  */
 
  function musicPlay() {
-  document.getElementById('musicPlayer').play();
+  audio.play()
   document.removeEventListener('click', musicPlay);
 }
 
@@ -38,14 +41,17 @@ document.querySelector('#player-form').addEventListener('submit', (e) => {
   socket.emit('newPlayer', username);
 });
 
-// Listen for ready button interaction
-document.querySelector('#player1 button').addEventListener('click', () => {
-  document.querySelector('#player1 button').innerHTML = 'Lets Go!';
 
-  document.addEventListener('click', musicPlay);
+confirmBtn.addEventListener('click', () => {
+  confirm++;
 
-  socket.emit('ready');
-});
+  confirmBtn.classList.add('hide');
+
+  if (confirm === 1) {
+    socket.emit('ready');
+    document.addEventListener('click', musicPlay);
+  }
+})
 
 /**
  * Sockets
@@ -65,15 +71,18 @@ socket.on('newGame', (players) => {
   // Hide the start screen, show the game display
   document.querySelector('#register-player').classList.add('hide');
   document.querySelector('#game').classList.remove('hide');
+
 });
 
 socket.on('startGame', (delay, position1, position2) => {
   //remove the confirm button
   document.querySelector('#player1 button').classList.add('hide');
 
+
   // add the position to the virus
   virusEl.style.gridColumn = position1;
   virusEl.style.gridRow = position2;
+
 
   setTimeout(() => {
     // remove the class hide from the virus

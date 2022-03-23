@@ -51,15 +51,15 @@ const handleReady = function () {
   // if there is two players, sent to playarea
   if (game.ready === 2) {
     // start the game
-
+    
     io.to(game.room).emit(
       'startGame',
       getRandomDelay,
       getRandomPosition(),
       getRandomPosition()
-    )
-
-    io.to(game.room).emit('musicPlay')
+      )
+      
+      io.to(game.room).emit('musicPlay')
   }
 };
 
