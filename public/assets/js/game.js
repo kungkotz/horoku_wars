@@ -160,13 +160,13 @@ socket.on('winner', () => {
     document.querySelector('#player2Score').innerHTML
   ) {
     document.querySelector('#winner').innerHTML =
-      'YESSSSS! <br> <img src="" class="winnerGif" alt="">';
+      'YESSSSS! <br> <img src="./assets/images/winner.gif" class="winner" alt="">';
   } else if (
     document.querySelector('#player1Score').innerHTML <
     document.querySelector('#player2Score').innerHTML
   ) {
     document.querySelector('#winner').innerHTML =
-      'DAMN IT, I suck! <br><img src="" class="looser" alt="">';
+      'DAMN IT, I suck! <br><img src="./assets/images/loser.gif" class="loser" alt="">';
   } else {
     document.querySelector('#winner').innerHTML =
       'Wow, you are both winners! <br><img src="" class="tie" alt="">';
