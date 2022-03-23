@@ -139,11 +139,11 @@
     text-align: center;
     font-size: 2rem;
     color: white;
+    width: auto;
+    height: auto;
 }
 
 .winner, .loser, .tie {
-    width: 60%;
-    height: auto;
     margin-top: 2rem;
 }
 
