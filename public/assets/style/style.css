@@ -137,3 +137,6 @@
 #musicPlayer {
     display: none;
 }
+.virus-img:focus {
+    cursor: none;
+  }
