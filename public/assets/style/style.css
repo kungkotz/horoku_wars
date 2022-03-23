@@ -122,7 +122,7 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    border: solid red;
+    /*border: solid red;*/
 }
 
 .virus-img {
@@ -130,7 +130,7 @@
     max-width: 80px;
 }
 
-.virus:hover {
+.virus-img:hover {
     cursor: pointer;
 }
 
@@ -140,4 +140,16 @@
 
 .virus:focus {
     cursor: none;
-  }
+}
+
+#winner {
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.winner, .loser, .tie {
+    width: 450px;
+    height: auto;
+    margin-top: 2rem;
+}
