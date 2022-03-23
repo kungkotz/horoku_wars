@@ -92,7 +92,6 @@
     padding: 10px 11px;
     color: white;
     font-size: 20px;
-
 }
 
 #timer1, #timer2 {
@@ -122,7 +121,6 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    /*border: solid red;*/
 }
 
 .virus-img {
@@ -155,4 +153,13 @@
     width: 450px;
     height: auto;
     margin-top: 2rem;
+}
+
+.confirmBtn {
+    background: red;
+    width: 10rem;
+    padding: 10px 11px;
+    color: white;
+    font-size: 2rem;
+    margin: auto auto;
 }

@@ -82,7 +82,7 @@ const handleClicked = function () {
     game.rounds++;
 
     //
-    if (game.rounds < 3) {
+    if (game.rounds < 4) {
       delay = getRandomDelay();
       io.to(game.room).emit(
         'startGame',
@@ -90,7 +90,7 @@ const handleClicked = function () {
         getRandomPosition(),
         getRandomPosition()
       );
-    }  else if (game.rounds === 3) {
+    }  else if (game.rounds === 4) {
       io.to(game.room).emit('winner')
     }
   }
