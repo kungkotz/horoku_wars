@@ -135,7 +135,10 @@
 }
 
 #musicPlayer {
-    display: none;
+    width: 20%;
+    position: absolute;
+    top: 2%;
+    right: 20%;
 }
 
 .virus:focus {
