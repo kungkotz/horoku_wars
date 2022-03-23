@@ -26,8 +26,8 @@ const init = () => {
 
   player1Score.innerHTML = 0;
   player2Score.innerHTML = 0;
+  winner.innerHTML = '';
 
-  winner.classList.add('hide');
   playAgainBtn.classList.add('hide');
 }
 
@@ -44,7 +44,6 @@ const clickedFunction = () => {
 
   virusEl.removeEventListener('click', clickedFunction);
 };
-
 
 /**
  * Event listeners
