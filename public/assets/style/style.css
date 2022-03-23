@@ -130,10 +130,10 @@
     max-width: 80px;
 }
 
-.virus-img:hover {
+.virus:hover {
     cursor: pointer;
 }
 
-.virus-img:focus {
+.virus:focus {
     cursor: none;
   }
