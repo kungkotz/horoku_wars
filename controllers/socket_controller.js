@@ -123,4 +123,5 @@ module.exports = function (socket) {
   socket.on('clicked', handleClicked);
 
   socket.on('disconnect', handleDisconnect);
+
 };

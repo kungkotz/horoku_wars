@@ -12,6 +12,7 @@ let newListItem;
  * Functions
  */
 
+
  function musicPlay() {
   audio.play()
   document.removeEventListener('click', musicPlay);
@@ -49,9 +50,10 @@ confirmBtn.addEventListener('click', () => {
 
   if (confirm === 1) {
     socket.emit('ready');
-    document.addEventListener('click', musicPlay);
+    socket.on('musicPlay', musicPlay);
   }
 })
+
 
 /**
  * Sockets
