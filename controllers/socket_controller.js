@@ -1,5 +1,4 @@
 const debug = require('debug')('horoku:socket_controller');
-
 let io = null;
 let players = {};
 let availableRoom = 1;
@@ -88,8 +87,8 @@ const handleClicked = function () {
         getRandomPosition(),
         getRandomPosition()
       );
-    }  else if (game.rounds === 3) {
-      io.to(game.room).emit('winner')
+    } else if (game.rounds === 3) {
+      io.to(game.room).emit('winner');
     }
   }
 };

@@ -23,9 +23,7 @@ app.set('port', port);
 const server = http.createServer(app);
 const io = SocketIO(server);
 
-io.on('connection', (socket) => {
-  socket_controller(socket, io);
-});
+io.on('connection', socket_controller);
 
 /**
  * Listen on provided port, on all network interfaces.
