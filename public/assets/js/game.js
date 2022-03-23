@@ -3,6 +3,7 @@ let socket = io();
 const virusEl = document.querySelector('#virus');
 const audio = document.getElementById('musicPlayer');
 const confirmBtn = document.querySelector('.confirmBtn')
+const playArea = document.querySelector('#playArea')
 
 let confirm = 0;
 let timer;
@@ -49,6 +50,7 @@ confirmBtn.addEventListener('click', () => {
   confirm++;
 
   confirmBtn.classList.add('hide');
+  playArea.classList.remove('hide');
 
   if (confirm === 1) {
     socket.emit('ready');
@@ -80,7 +82,7 @@ socket.on('newGame', (players) => {
 
 socket.on('startGame', (delay, position1, position2) => {
   //remove the confirm button
-  document.querySelector('#player1 button').classList.add('hide');
+  //document.querySelector('#player1 button').classList.add('hide');
 
 
   // add the position to the virus
@@ -171,6 +173,6 @@ socket.on('winner', () => {
       'DAMN IT, I suck! <br><img src="./assets/images/loser.gif" class="loser" alt="">';
   } else {
     document.querySelector('#winner').innerHTML =
-      'Wow, you are both winners! <br><img src="" class="tie" alt="">';
+      'WHAT!! A TIE!? <br><img src="./assets/images/tie.gif" class="tie" alt="">';
   }
 });
