@@ -169,6 +169,6 @@ socket.on('winner', () => {
       'DAMN IT, I suck! <br><img src="./assets/images/loser.gif" class="loser" alt="">';
   } else {
     document.querySelector('#winner').innerHTML =
-      'Wow, you are both winners! <br><img src="" class="tie" alt="">';
+      'WHAT!! A TIE!? <br><img src="./assets/images/tie.gif" class="tie" alt="">';
   }
 });
