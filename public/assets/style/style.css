@@ -152,7 +152,7 @@
 }
 
 .winner, .loser, .tie {
-    width: 450px;
+    width: 80%;
     height: auto;
     margin-top: 2rem;
 }

@@ -14,7 +14,9 @@ let newListItem;
 
 
  function musicPlay() {
-  audio.play()
+  audio.volume = 0.2;
+  audio.play();
+  audio.classList.remove('hide');
   document.removeEventListener('click', musicPlay);
 }
 
