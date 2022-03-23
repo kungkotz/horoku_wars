@@ -35,7 +35,7 @@ const handleNewPlayer = function (username) {
     games.push(game);
 
     // emits the Game and the Players to the playarea
-    io.to(room).emit('newGame', players);
+    io.to(game.room).emit('newGame', players);
 
     // empty players
     players = {};
@@ -57,7 +57,9 @@ const handleReady = function () {
       getRandomDelay,
       getRandomPosition(),
       getRandomPosition()
-    );
+    )
+
+    io.to(game.room).emit('musicPlay')
   }
 };
 

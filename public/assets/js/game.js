@@ -9,6 +9,11 @@ let newListItem;
  * Functions
  */
 
+ function musicPlay() {
+  document.getElementById('musicPlayer').play();
+  document.removeEventListener('click', musicPlay);
+}
+
 const clickedFunction = () => {
   socket.emit('clicked');
 
@@ -37,6 +42,8 @@ document.querySelector('#player-form').addEventListener('submit', (e) => {
 document.querySelector('#player1 button').addEventListener('click', () => {
   document.querySelector('#player1 button').innerHTML = 'Lets Go!';
 
+  document.addEventListener('click', musicPlay);
+
   socket.emit('ready');
 });
 
@@ -44,7 +51,7 @@ document.querySelector('#player1 button').addEventListener('click', () => {
  * Sockets
  */
 
-socket.on('newGame', (players, rounds) => {
+socket.on('newGame', (players) => {
   const player1 = players[socket.id];
   // delete player1 from showing up on player2 side
   delete players[socket.id];
