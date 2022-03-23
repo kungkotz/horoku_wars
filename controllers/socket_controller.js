@@ -95,6 +95,8 @@ const handleClicked = function () {
       );
     }  else if (game.rounds === 4) {
       io.to(game.room).emit('winner')
+      
+      game.rounds = 0;
     }
   }
 };

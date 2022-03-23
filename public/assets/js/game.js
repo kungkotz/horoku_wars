@@ -206,4 +206,5 @@ socket.on('winner', () => {
       'WHAT!! A TIE!? <br><img src="./assets/images/tie.gif" class="tie" alt="">';
   }
   playAgainBtn.classList.remove('hide');
+  
 });
