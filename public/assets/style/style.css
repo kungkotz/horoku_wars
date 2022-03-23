@@ -133,3 +133,7 @@
 .virus-img:hover {
     cursor: pointer;
 }
+
+.virus-img:focus {
+    cursor: none;
+  }
