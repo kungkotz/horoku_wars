@@ -60,6 +60,9 @@ const handleReady = function () {
       )
       
       io.to(game.room).emit('musicPlay')
+      io.to(game.room).emit('restart')
+
+      game.ready = 0;
   }
 };
 

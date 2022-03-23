@@ -1,9 +1,16 @@
 let socket = io();
 
 const virusEl = document.querySelector('#virus');
-const audio = document.getElementById('musicPlayer');
-const confirmBtn = document.querySelector('.confirmBtn')
 const playArea = document.querySelector('#playArea')
+const ul1 = document.querySelector('#timer1');
+const ul2 = document.querySelector('#timer2');
+const player1Score = document.querySelector('#player1Score');
+const player2Score = document.querySelector('#player2Score');
+const winner = document.querySelector('#winner');
+const audio = document.querySelector('#musicPlayer');
+
+const confirmBtn = document.querySelector('.confirmBtn');
+const playAgainBtn = document.querySelector('.playAgain');
 
 let confirm = 0;
 let timer;
@@ -13,8 +20,19 @@ let newListItem;
  * Functions
  */
 
+const init = () => {
+  ul1.innerHTML = '';
+  ul2.innerHTML = '';
 
- function musicPlay() {
+  player1Score.innerHTML = 0;
+  player2Score.innerHTML = 0;
+
+  winner.classList.add('hide');
+  playAgainBtn.classList.add('hide');
+}
+
+
+function musicPlay() {
   audio.volume = 0.2;
   audio.play();
   audio.classList.remove('hide');
@@ -26,6 +44,7 @@ const clickedFunction = () => {
 
   virusEl.removeEventListener('click', clickedFunction);
 };
+
 
 /**
  * Event listeners
@@ -56,8 +75,23 @@ confirmBtn.addEventListener('click', () => {
     socket.emit('ready');
     socket.on('musicPlay', musicPlay);
   }
+
+  confirm = 0;
 })
 
+playAgainBtn.addEventListener('click', () => {
+  confirm++;
+
+  if (confirm === 1) {
+
+    playAgainBtn.classList.add('hide');
+    socket.emit('ready');
+    socket.on('restart', init)
+    socket.on('startGame');
+    
+    confirm = 0;
+  }
+});
 
 /**
  * Sockets
@@ -81,14 +115,10 @@ socket.on('newGame', (players) => {
 });
 
 socket.on('startGame', (delay, position1, position2) => {
-  //remove the confirm button
-  //document.querySelector('#player1 button').classList.add('hide');
-
 
   // add the position to the virus
   virusEl.style.gridColumn = position1;
   virusEl.style.gridRow = position2;
-
 
   setTimeout(() => {
     // remove the class hide from the virus
@@ -175,4 +205,5 @@ socket.on('winner', () => {
     document.querySelector('#winner').innerHTML =
       'WHAT!! A TIE!? <br><img src="./assets/images/tie.gif" class="tie" alt="">';
   }
+  playAgainBtn.classList.remove('hide');
 });

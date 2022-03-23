@@ -163,3 +163,12 @@
     font-size: 2rem;
     margin: auto auto;
 }
+
+.playAgain {
+    background: rgb(6, 84, 209);
+    width: 10rem;
+    color: white;
+    font-size: 2rem;
+    margin: auto auto;
+    margin-top: 10%;
+}
