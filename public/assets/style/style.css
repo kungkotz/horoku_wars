@@ -53,7 +53,7 @@
     width: 200px;
     height: 40px;
     margin-top: 20px;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 600;
     background-color: red;
 }
@@ -84,14 +84,6 @@
 #player1 h1, #player2 h1 {
     margin: 2rem 0;
     color: white;
-}
-
-#player1 button, #player2 button {
-    background: red;
-    width: 70px;
-    padding: 10px 11px;
-    color: white;
-    font-size: 20px;
 }
 
 #timer1, #timer2 {
