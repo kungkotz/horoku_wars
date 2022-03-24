@@ -1,6 +1,7 @@
 let socket = io();
 
 const virus = document.querySelector('#virus');
+const playerForm = document.querySelector('#player-form');
 const playArea = document.querySelector('#playArea')
 const ul1 = document.querySelector('#timer1');
 const ul2 = document.querySelector('#timer2');
@@ -50,7 +51,7 @@ const clickedFunction = () => {
  */
 
 // Listen for when the player form is submited
-document.querySelector('#player-form').addEventListener('submit', (e) => {
+playerForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   // remove the class hide from Waiting for new victim text
@@ -126,12 +127,10 @@ socket.on('startGame', (delay, position1, position2) => {
     const startTime = new Date().getTime();
 
     // selects the ul of #timer1 and adds a new list item
-    const ul1 = document.querySelector('#timer1');
     const li1 = document.createElement('LI');
     newListItem1 = ul1.appendChild(li1);
 
     // selects the ul of #timer2 and adds a new list item
-    const ul2 = document.querySelector('#timer2');
     const li2 = document.createElement('LI');
     newListItem2 = ul2.appendChild(li2);
 
@@ -163,7 +162,7 @@ socket.on('disconnect', (reason) => {
   if (reason === 'io server disconnect') {
     socket.connect();
   }
-  console.log(username + ' disconnected');
+  // console.log(username + ' disconnected');
 });
 
 // listen for who gets point
