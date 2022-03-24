@@ -62,7 +62,6 @@ playerForm.addEventListener('submit', (e) => {
   socket.emit('newPlayer', username);
 });
 
-
 confirmBtn.addEventListener('click', () => {
   confirm++;
 
