@@ -103,6 +103,7 @@ const handleClicked = function () {
 
 const handleDisconnect = function () {
   debug(`Client ${this.id} disconnected :(`);
+
   // Find the room that this socket is part of
   const game = games.find((gameroom) =>
     gameroom.players.hasOwnProperty(this.id)
@@ -113,7 +114,7 @@ const handleDisconnect = function () {
     return;
   }
   // We broadcast to everyone in a room  that a user has disconnected
-  this.broadcast.to(game.id).emit('user:disconnected', game.players[this.id]);
+  this.broadcast.to(game.room).emit('user:disconnected', game.players[this.id]);
   delete game.players[this.id];
 };
 
