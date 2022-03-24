@@ -1,6 +1,6 @@
 let socket = io();
 
-const virusEl = document.querySelector('#virus');
+const virus = document.querySelector('#virus');
 const playArea = document.querySelector('#playArea')
 const ul1 = document.querySelector('#timer1');
 const ul2 = document.querySelector('#timer2');
@@ -42,7 +42,7 @@ function musicPlay() {
 const clickedFunction = () => {
   socket.emit('clicked');
 
-  virusEl.removeEventListener('click', clickedFunction);
+  virus.removeEventListener('click', clickedFunction);
 };
 
 /**
@@ -116,12 +116,12 @@ socket.on('newGame', (players) => {
 socket.on('startGame', (delay, position1, position2) => {
 
   // add the position to the virus
-  virusEl.style.gridColumn = position1;
-  virusEl.style.gridRow = position2;
+  virus.style.gridColumn = position1;
+  virus.style.gridRow = position2;
 
   setTimeout(() => {
     // remove the class hide from the virus
-    virusEl.classList.remove('hide');
+    virus.classList.remove('hide');
 
     const startTime = new Date().getTime();
 
@@ -149,7 +149,7 @@ socket.on('startGame', (delay, position1, position2) => {
       newListItem2.innerHTML = moment(diff).format('mm:ss:SSS');
     }, 1);
 
-    virusEl.addEventListener('click', clickedFunction);
+    virus.addEventListener('click', clickedFunction);
   }, delay);
 });
 
@@ -178,7 +178,7 @@ socket.on('getPoint', (id) => {
   document.querySelector(`#${player}Score`).innerHTML = newScore;
 
   // hide the virus
-  virusEl.classList.add('hide');
+  virus.classList.add('hide');
 });
 
 // setInterval is passed here and then cancels the interval
