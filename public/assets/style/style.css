@@ -39,6 +39,7 @@ input[type="text"], textarea, [contenteditable]
     width: 100vw;
     font-family: 'VT323', 'Roboto', sans-serif;
     background-color: black;
+    padding: 1rem;
 }
 
 #register-player {

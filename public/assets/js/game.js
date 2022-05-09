@@ -3,6 +3,7 @@ let socket = io();
 const audio = document.querySelector('#musicPlayer');
 const virus = document.querySelector('#virus');
 const playerForm = document.querySelector('#player-form');
+const playArea = document.querySelector('#playArea');
 
 const player1Score = document.querySelector('#player1Score');
 const player2Score = document.querySelector('#player2Score');
@@ -13,7 +14,10 @@ const winner = document.querySelector('#winner');
 const confirmBtn = document.querySelector('.confirmBtn');
 const playAgainBtn = document.querySelector('.playAgain');
 
+
 let confirm = 0;
+let reactionTime;
+let playerId;
 
 /**
  * Functions
@@ -38,10 +42,12 @@ const init = () => {
 //   document.removeEventListener('click', musicPlay);
 // }
 
-const clickedFunction = () => {
-  socket.emit('clicked');
+const clickedFunction = (startTime) => {
+  const clickedTime = new Date().getTime();
+  let reactionTime = clickedTime - startTime;
 
-  virus.removeEventListener('click', clickedFunction);
+  socket.emit('clicked', reactionTime);
+
 };
 
 /**
@@ -59,35 +65,29 @@ playerForm.addEventListener('submit', (e) => {
   const username = document.querySelector('#username').value;
 
   // emits that username value
-  socket.emit('newPlayer', username);
+  socket.emit('newPlayer', username, (id) => {
+    playerId = id;
+  });
 });
 
 confirmBtn.addEventListener('click', () => {
-  confirm++;
 
   confirmBtn.classList.add('hide');
   document.querySelector('#playArea').classList.remove('hide');
 
-  if (confirm === 1) {
     socket.emit('ready');
-    socket.on('musicPlay', musicPlay);
-  }
+    // socket.on('musicPlay', musicPlay);
 
-  confirm = 0;
 });
 
+socket.on('restart', init);
+
 playAgainBtn.addEventListener('click', () => {
-  confirm++;
 
-  if (confirm === 1) {
-
-    playAgainBtn.classList.add('hide');
-    socket.emit('ready');
-    socket.on('restart', init);
+    playAgainBtn.classList.toggle('hide', true);
+    socket.emit('ready', playerId);
     socket.on('startGame');
-    
-    confirm = 0;
-  }
+
 });
 
 /**
@@ -95,31 +95,48 @@ playAgainBtn.addEventListener('click', () => {
  */
 
 socket.on('newGame', (players) => {
-  const player1 = players[socket.id];
-  // delete player1 from showing up on player2 side
-  delete players[socket.id];
+  const playerOne = players[0];
+  const playerTwo = players[1];
 
-  const player2 = Object.values(players);
 
   // Info in the sidebar
-  document.querySelector('#player1 h1').innerHTML = player1;
-  document.querySelector('#player2 h1').innerHTML = player2;
+  document.querySelector('#player1 h1').innerHTML = playerOne.username;
+  document.querySelector('#player2 h1').innerHTML = playerTwo.username;
 
   // Hide the start screen, show the game display
   document.querySelector('#register-player').classList.add('hide');
   document.querySelector('#game').classList.remove('hide');
+  
 });
 
 socket.on('startGame', (delay, position1, position2) => {
 
-  // add the position to the virus
-  virus.style.gridColumn = position1;
-  virus.style.gridRow = position2;
-  
+  const prevVirus = document.querySelector("#virus");
+
+  if (prevVirus) {
+    prevVirus.remove();
+  }
+
   setTimeout(() => {
     // remove the class hide from the virus
-    virus.classList.remove('hide');
+    // virus.classList.remove('hide');
+
+  
+    const virus = document.createElement("div");
     
+    virus.id = "virus"
+    virus.innerHTML = `
+      <img class="virus-img"
+      src="./assets/images/virus.png"
+      alt="">
+    `
+    // add the position to the virus
+    virus.style.gridColumn = position1;
+    virus.style.gridRow = position2;
+  
+    playArea.append(virus);
+
+
     const startTime = new Date().getTime();
 
     // creates a list item and adds it to the players ul
@@ -145,7 +162,7 @@ socket.on('startGame', (delay, position1, position2) => {
       newListItem2.innerHTML = moment(diff).format('mm:ss:SSS');
     }, 1);
 
-    virus.addEventListener('click', clickedFunction);
+    virus.addEventListener('click', () => clickedFunction(startTime));
   }, delay);
 });
 
@@ -162,35 +179,39 @@ socket.on('disconnect', (reason) => {
 });
 
 // listen for who gets point
-socket.on('getPoint', (id) => {
-  let player = null;
+socket.on('getPoint', (data) => {
 
-  id === socket.id ? (player = 'player2') : (player = 'player1');
+  if (data.winner === data.players[0].id) {
+    player1Score.innerText = data.winnerScore
+  } 
+  
+  if (data.winner === data.players[1].id) {
+    player2Score.innerText = data.winnerScore
+  }
 
-  let oldScore = Number(document.querySelector(`#${player}Score`).innerHTML);
-
-  let newScore = ++oldScore;
-  document.querySelector(`#${player}Score`).innerHTML = newScore;
-
-  // hide the virus
-  virus.classList.add('hide');
 });
 
 // setInterval is passed here and then cancels the interval
-socket.on('stopTimer', (id) => {
-  id === socket.id ? clearInterval(timer1) : clearInterval(timer2);
+socket.on('stopTimer', ({ id, playerOne }) => {
+  // console.log(socket.id)
+  id === playerOne.id ? clearInterval(timer1) : clearInterval(timer2);
 });
 
 // emiting winner at end of game
-socket.on('winner', () => {
-  if (player1Score.innerHTML > player2Score.innerHTML) {
+socket.on('winner', winnerId => {
+
+  if (playerId === winnerId) {
     winner.innerHTML = 'YESSSSS! <br> <img src="./assets/images/winner.gif" class="winner" alt="">';
 
-  } else if (player1Score.innerHTML < player2Score.innerHTML) {
-    winner.innerHTML = 'DAMN IT, I suck! <br><img src="./assets/images/loser.gif" class="loser" alt="">';
-
-  } else {
+  } else if (winnerId === null) {
     winner.innerHTML = 'WHAT!! A TIE!? <br><img src="./assets/images/tie.gif" class="tie" alt="">';
+    
+  } else {
+    winner.innerHTML = 'DAMN IT, I suck! <br><img src="./assets/images/loser.gif" class="loser" alt="">';
   }
   playAgainBtn.classList.remove('hide');
+});
+
+socket.on('clientClicked', (id) => {
+  console.log(id)
 });

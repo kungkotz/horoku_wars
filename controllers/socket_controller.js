@@ -1,7 +1,7 @@
 const debug = require('debug')('horoku:socket_controller');
 
 let io = null;
-let players = {};
+let players = [];
 let availableRoom = 1;
 let games = [];
 
@@ -16,8 +16,18 @@ const getRandomDelay = () => {
 };
 
 
-const handleNewPlayer = function (username) {
-  players[this.id] = username;
+const handleNewPlayer = function (username, setUserId) {
+
+  const player =  {
+      id: this.id,
+      username: username,
+      score: 0,
+      reactionTime: null,
+    }
+
+    setUserId(player.id)
+
+  players.push(player)
 
   this.join('game-' + availableRoom);
 
@@ -25,7 +35,7 @@ const handleNewPlayer = function (username) {
   console.log(this.id)
 
   // if 2, start the game
-  if (Object.keys(players).length === 2) {
+  if (players.length === 2) {
     const room = 'game-' + availableRoom;
 
     let game = {
@@ -38,24 +48,30 @@ const handleNewPlayer = function (username) {
 
     games.push(game);
 
+    io.to(game.room).emit('clientClicked', game);
+
+    
     // emits the Game and the Players to the playarea
     io.to(room).emit('newGame', players);
-
-    // console.log(players)
-
-    // empty players
-    players = {};
+    
+    // Empty players
+    players = []
 
     availableRoom++;
   }
 };
 
 
+const handleReady = function (playerId) {
+    const game = games.find(game => game.room)
 
-const handleReady = function () {
+  // const game = games.find(game => {
+  //   const playerInRoom = game.players.some(player => player.id == playerId)
+    
+  //   if (playerInRoom) return game
 
-  const game = games.find((id) => id.players[this.id]);
-
+  // })
+  
   game.ready++;
 
   console.log(this.id)
@@ -65,7 +81,7 @@ const handleReady = function () {
   // if there is two players, sent to playarea
   if (game.ready === 2) {
     // start the game
-    
+
     io.to(game.room).emit(
       'startGame',
       getRandomDelay,
@@ -73,35 +89,68 @@ const handleReady = function () {
       getRandomPosition()
       )
       
-      io.to(game.room).emit('musicPlay')
+      // io.to(game.room).emit('musicPlay')
       io.to(game.room).emit('restart')
 
       game.ready = 0;
   }
 };
 
-const handleClicked = function () {
-  const game = games.find((id) => id.players[this.id]);
-  
-  console.log(this.id)
-
-  // sends the click function to stop the timer
-  io.to(game.room).emit('stopTimer', this.id);
+const handleClicked = function (reactionTime) {
+  const game = games.find(game => game.room);
 
   //register who clicked
   game.clicks.push(this.id);
 
-  if (game.clicks.length === 2) {
-    io.to(game.room).emit('getPoint', this.id);
+  const playerOne = game.players[0];
+  const playerTwo = game.players[1];
+  const playerClicked = this.id === playerOne.id ? playerOne : playerTwo;
+  playerClicked.reactionTime = reactionTime
 
+  console.log(game)
+  
+  if (playerClicked) {
+    console.log(`${playerClicked.username} clicked`)
+    console.log("with " + playerClicked.reactionTime)
+    io.to(game.room).emit('stopTimer', {
+      id: playerClicked.id, 
+      playerOne: playerOne
+    })
+  }
+
+
+  // sends the click function to stop the timer
+  // io.to(game.room).emit('stopTimer', this.id);
+  reactionTime = 0;
+  io.to(game.room).emit('clientClicked', game);
+  
+  if (game.clicks.includes(playerOne.id) && (game.clicks.includes(playerTwo.id))) {
+    if (playerOne.reactionTime < playerTwo.reactionTime) {
+      playerOne.score++
+      io.to(game.room).emit('getPoint', {
+        winner: playerOne.id, 
+        players: game.players,
+        winnerScore: playerOne.score
+      });
+
+    } else {
+      playerTwo.score++
+      io.to(game.room).emit('getPoint', {
+        winner: playerTwo.id, 
+        players: game.players,
+        winnerScore: playerTwo.score
+      });
+    }
+    
     // sends the clicks to array
     game.clicks = [];
-
-    // increments the rounds
+    
+    
+    // // increments the rounds
     game.rounds++;
 
     //
-    if (game.rounds < 10) {
+    if (game.rounds < 3) {
       delay = getRandomDelay();
       io.to(game.room).emit(
         'startGame',
@@ -109,10 +158,17 @@ const handleClicked = function () {
         getRandomPosition(),
         getRandomPosition()
       );
-    }  else if (game.rounds === 10) {
-      io.to(game.room).emit('winner')
+    }  else if (game.rounds === 3) {
+
+      const isTie = playerOne.score === playerTwo.score
+      const playerOneWon = playerOne.score > playerTwo.score
+      
+      io.to(game.room).emit('winner', isTie ? undefined : (playerOneWon ? playerOne.id : playerTwo.id))
       
       game.rounds = 0;
+      game.players.map(player => {
+        player.score = 0;
+      })
     }
   }
 };
