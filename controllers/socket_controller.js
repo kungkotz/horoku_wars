@@ -37,14 +37,6 @@ const handleNewPlayer = function (username, setUserId) {
 
     let game = {
       room,
-    //   players: [
-    //     {
-    //     id: this.id, 
-    //     player: username,
-    //     score: 0,
-    //     reactionTime: null,
-    //   },
-    // ],
       players,
       ready: 0,
       rounds: 0,
