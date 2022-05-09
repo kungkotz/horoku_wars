@@ -59,14 +59,10 @@ const handleNewPlayer = function (username, setUserId) {
 
 
 const handleReady = function (playerId) {
-    // const game = games.find(game => game.room)
-
-  console.log(playerId)
   const game = games.find(game => {
-    const playerInRoom = game.players.some(player => player.id == playerId)
+  const playerInRoom = game.players.some(player => player.id == playerId)
     
     if (playerInRoom) return game
-
   })
   
   game.ready++;
@@ -142,7 +138,7 @@ const handleClicked = function ({ reactionTime, playerId }) {
     game.rounds++;
 
     //
-    if (game.rounds < 3) {
+    if (game.rounds < 10) {
       delay = getRandomDelay();
       io.to(game.room).emit(
         'startGame',
@@ -150,7 +146,7 @@ const handleClicked = function ({ reactionTime, playerId }) {
         getRandomPosition(),
         getRandomPosition()
       );
-    }  else if (game.rounds === 3) {
+    }  else if (game.rounds === 10) {
 
       const isTie = playerOne.score === playerTwo.score
 
