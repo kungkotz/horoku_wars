@@ -15,10 +15,14 @@ const getRandomDelay = () => {
   return Math.floor(Math.random() * (5000 - 1000)) + 1000;
 };
 
+
 const handleNewPlayer = function (username) {
   players[this.id] = username;
 
   this.join('game-' + availableRoom);
+
+  console.log(username)
+  console.log(this.id)
 
   // if 2, start the game
   if (Object.keys(players).length === 2) {
@@ -37,6 +41,8 @@ const handleNewPlayer = function (username) {
     // emits the Game and the Players to the playarea
     io.to(room).emit('newGame', players);
 
+    // console.log(players)
+
     // empty players
     players = {};
 
@@ -44,9 +50,17 @@ const handleNewPlayer = function (username) {
   }
 };
 
+
+
 const handleReady = function () {
+
   const game = games.find((id) => id.players[this.id]);
+
   game.ready++;
+
+  console.log(this.id)
+  console.log(game.players)
+
 
   // if there is two players, sent to playarea
   if (game.ready === 2) {
@@ -68,6 +82,8 @@ const handleReady = function () {
 
 const handleClicked = function () {
   const game = games.find((id) => id.players[this.id]);
+  
+  console.log(this.id)
 
   // sends the click function to stop the timer
   io.to(game.room).emit('stopTimer', this.id);

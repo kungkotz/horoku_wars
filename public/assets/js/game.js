@@ -31,12 +31,12 @@ const init = () => {
 }
 
 
-function musicPlay() {
-  audio.volume = 0.2;
-  audio.play();
-  audio.classList.remove('hide');
-  document.removeEventListener('click', musicPlay);
-}
+// function musicPlay() {
+//   audio.volume = 0.2;
+//   audio.play();
+//   audio.classList.remove('hide');
+//   document.removeEventListener('click', musicPlay);
+// }
 
 const clickedFunction = () => {
   socket.emit('clicked');
@@ -115,11 +115,11 @@ socket.on('startGame', (delay, position1, position2) => {
   // add the position to the virus
   virus.style.gridColumn = position1;
   virus.style.gridRow = position2;
-
+  
   setTimeout(() => {
     // remove the class hide from the virus
     virus.classList.remove('hide');
-
+    
     const startTime = new Date().getTime();
 
     // creates a list item and adds it to the players ul
