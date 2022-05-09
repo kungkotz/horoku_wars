@@ -31,9 +31,6 @@ const handleNewPlayer = function (username, setUserId) {
 
   this.join('game-' + availableRoom);
 
-  console.log(username)
-  console.log(this.id)
-
   // if 2, start the game
   if (players.length === 2) {
     const room = 'game-' + availableRoom;
@@ -50,7 +47,6 @@ const handleNewPlayer = function (username, setUserId) {
 
     io.to(game.room).emit('clientClicked', game);
 
-    
     // emits the Game and the Players to the playarea
     io.to(room).emit('newGame', players);
     
@@ -73,10 +69,6 @@ const handleReady = function (playerId) {
   // })
   
   game.ready++;
-
-  console.log(this.id)
-  console.log(game.players)
-
 
   // if there is two players, sent to playarea
   if (game.ready === 2) {
@@ -105,9 +97,8 @@ const handleClicked = function (reactionTime) {
   const playerOne = game.players[0];
   const playerTwo = game.players[1];
   const playerClicked = this.id === playerOne.id ? playerOne : playerTwo;
-  playerClicked.reactionTime = reactionTime
 
-  console.log(game)
+  playerClicked.reactionTime = reactionTime
   
   if (playerClicked) {
     console.log(`${playerClicked.username} clicked`)
@@ -118,9 +109,6 @@ const handleClicked = function (reactionTime) {
     })
   }
 
-
-  // sends the click function to stop the timer
-  // io.to(game.room).emit('stopTimer', this.id);
   reactionTime = 0;
   io.to(game.room).emit('clientClicked', game);
   
@@ -145,7 +133,6 @@ const handleClicked = function (reactionTime) {
     // sends the clicks to array
     game.clicks = [];
     
-    
     // // increments the rounds
     game.rounds++;
 
@@ -161,6 +148,7 @@ const handleClicked = function (reactionTime) {
     }  else if (game.rounds === 3) {
 
       const isTie = playerOne.score === playerTwo.score
+
       const playerOneWon = playerOne.score > playerTwo.score
       
       io.to(game.room).emit('winner', isTie ? undefined : (playerOneWon ? playerOne.id : playerTwo.id))

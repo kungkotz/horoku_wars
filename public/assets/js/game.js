@@ -73,8 +73,8 @@ confirmBtn.addEventListener('click', () => {
   confirmBtn.classList.add('hide');
   document.querySelector('#playArea').classList.remove('hide');
 
-    socket.emit('ready');
-    // socket.on('musicPlay', musicPlay);
+  socket.emit('ready');
+  // socket.on('musicPlay', musicPlay);
 
 });
 
@@ -93,9 +93,9 @@ playAgainBtn.addEventListener('click', () => {
  */
 
 socket.on('newGame', (players) => {
+
   const playerOne = players[0];
   const playerTwo = players[1];
-
 
   // Info in the sidebar
   document.querySelector('#player1 h1').innerHTML = playerOne.username;
@@ -119,7 +119,6 @@ socket.on('startGame', (delay, position1, position2) => {
     // remove the class hide from the virus
     // virus.classList.remove('hide');
 
-  
     const virus = document.createElement("div");
     
     virus.id = "virus"
@@ -133,7 +132,6 @@ socket.on('startGame', (delay, position1, position2) => {
     virus.style.gridRow = position2;
   
     playArea.append(virus);
-
 
     const startTime = new Date().getTime();
 
@@ -191,7 +189,6 @@ socket.on('getPoint', (data) => {
 
 // setInterval is passed here and then cancels the interval
 socket.on('stopTimer', ({ id, playerOne }) => {
-  // console.log(socket.id)
   id === playerOne.id ? clearInterval(timer1) : clearInterval(timer2);
 });
 
