@@ -44,7 +44,12 @@ const clickedFunction = (startTime) => {
   const clickedTime = new Date().getTime();
   let reactionTime = clickedTime - startTime;
 
-  socket.emit('clicked', reactionTime);
+  document.querySelector('#virus').remove();
+
+  socket.emit('clicked', {
+    reactionTime,
+    playerId
+  });
 
 };
 
@@ -73,7 +78,7 @@ confirmBtn.addEventListener('click', () => {
   confirmBtn.classList.add('hide');
   document.querySelector('#playArea').classList.remove('hide');
 
-  socket.emit('ready');
+  socket.emit('ready', playerId);
   // socket.on('musicPlay', musicPlay);
 
 });
@@ -84,6 +89,7 @@ playAgainBtn.addEventListener('click', () => {
 
     playAgainBtn.classList.toggle('hide', true);
     socket.emit('ready', playerId);
+    console.log(playerId)
     socket.on('startGame');
 
 });
@@ -109,11 +115,6 @@ socket.on('newGame', (players) => {
 
 socket.on('startGame', (delay, position1, position2) => {
 
-  const prevVirus = document.querySelector("#virus");
-
-  if (prevVirus) {
-    prevVirus.remove();
-  }
 
   setTimeout(() => {
     // remove the class hide from the virus

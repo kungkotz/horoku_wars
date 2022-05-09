@@ -59,14 +59,15 @@ const handleNewPlayer = function (username, setUserId) {
 
 
 const handleReady = function (playerId) {
-    const game = games.find(game => game.room)
+    // const game = games.find(game => game.room)
 
-  // const game = games.find(game => {
-  //   const playerInRoom = game.players.some(player => player.id == playerId)
+  console.log(playerId)
+  const game = games.find(game => {
+    const playerInRoom = game.players.some(player => player.id == playerId)
     
-  //   if (playerInRoom) return game
+    if (playerInRoom) return game
 
-  // })
+  })
   
   game.ready++;
 
@@ -88,9 +89,13 @@ const handleReady = function (playerId) {
   }
 };
 
-const handleClicked = function (reactionTime) {
-  const game = games.find(game => game.room);
+const handleClicked = function ({ reactionTime, playerId }) {
+  const game = games.find(game => {
+  const playerInRoom = game.players.some(player => player.id == playerId)
+    
+    if (playerInRoom) return game
 
+  })
   //register who clicked
   game.clicks.push(this.id);
 
