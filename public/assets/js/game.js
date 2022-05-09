@@ -117,9 +117,8 @@ socket.on('startGame', (delay, position1, position2) => {
 
 
   setTimeout(() => {
-    // remove the class hide from the virus
-    // virus.classList.remove('hide');
 
+    // Create a virus
     const virus = document.createElement("div");
     
     virus.id = "virus"
