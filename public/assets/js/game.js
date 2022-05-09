@@ -14,8 +14,6 @@ const winner = document.querySelector('#winner');
 const confirmBtn = document.querySelector('.confirmBtn');
 const playAgainBtn = document.querySelector('.playAgain');
 
-
-let confirm = 0;
 let reactionTime;
 let playerId;
 
